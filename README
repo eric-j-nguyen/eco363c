@@ -1,7 +1,6 @@
-ECO 363C - Computational Economics
-Fall 2013
-Dr. David A. Kendrick
+Agent-Based Model
 
-Code for various labs
+Originally written in MATLAB
+Kendrick, David A., P. Ruben Mercado, and Hans M. Amman. "Computational Economics." 1st ed. Princeton: Princeton University Press, 2006. 267-89. Print.
 
-Individual contributions are in the README files of each branch.
+Rewritten in Java with improvements by Eric Nguyen 
