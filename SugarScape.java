@@ -64,6 +64,11 @@ class SugarScapeEntry
 		currentSugarAmt = origSugarAmt;
 	}
 	
+	public ArrayList<Agent> getHistory()
+	{
+		return history;
+	}
+	
 	public double getCurrentSugarAmt()
 	{
 		return currentSugarAmt;
@@ -209,6 +214,34 @@ public class SugarScape
 		}
 		outwriter.close();
 	}
+
+	public void outputSugarScapeHistoryLengthCSV(String outFileName) throws IOException
+	{
+		File outFile = new File(outFileName);
+		if(outFile.exists())
+		{
+			outFile.delete();
+		}
+		
+		PrintWriter outwriter = new PrintWriter(outFile);
+		
+		for(int i = 0; i < sugarscape.length; i++)
+		{
+			for (int j = 0; j < sugarscape[0].length; j++)
+			{
+				if(sugarscape[i][j].getAgent() != null)
+				{
+					outwriter.print(sugarscape[i][j].getHistory().size() + ",");
+				}
+				else
+				{
+					outwriter.print("0,");
+				}
+			}
+			outwriter.print("\n");
+		}
+		outwriter.close();
+	}
 	
 	public void performRounds(int numRounds)
 	{
@@ -236,7 +269,11 @@ public class SugarScape
 				Agent currentAgent = SGEntries.get(SGindex).getAgent();
 				if(currentAgent != null && SGEntries.get(SGindex).getCurrentSugarAmt() > 0)
 				{
-					currentAgent.setWealth(currentAgent.getWealth() + SGEntries.get(SGindex).getCurrentSugarAmt() - currentAgent.getMetabolism());
+					if(currentAgent.getWealth() > 1000)
+						currentAgent.setWealth(currentAgent.getWealth() + (1 + (currentAgent.getWealth() / ((double) 100000)) * SGEntries.get(SGindex).getCurrentSugarAmt()) - currentAgent.getMetabolism());
+					else
+						currentAgent.setWealth(currentAgent.getWealth() + SGEntries.get(SGindex).getCurrentSugarAmt() - currentAgent.getMetabolism());
+					
 					SGEntries.get(SGindex).depleteCurrentSugar();
 					
 					
